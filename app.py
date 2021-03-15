@@ -31,7 +31,10 @@ def member():
 
 @app.route("/error/")
 def error():
-    return render_template("error.html")
+    if session["signin"] == False:
+        return render_template("error.html")
+    if session["signin"] == True:
+        return redirect("/member/")
 
 @app.route("/signout", methods=["GET"])
 def signout():
