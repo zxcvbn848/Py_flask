@@ -4,8 +4,11 @@ app.secret_key = "45ffh46dfh"
 
 @app.route("/")
 def index():
+    if session["signin"] == True:
+        return redirect("/member/")
     session["signin"] = False
-    return render_template("index.html")
+    if session["signin"] == False:
+        return render_template("index.html")
 
 @app.route("/signin", methods=["POST"])
 def signin():
@@ -15,9 +18,9 @@ def signin():
     password = request.form["password"]
     if (account == accountPass and password == passwordPass):
         session["signin"] = True
-        return redirect("/member")
+        return redirect("/member/")
     else:
-        return redirect("/error")
+        return redirect("/error/")
 
 @app.route("/member/")
 def member():
