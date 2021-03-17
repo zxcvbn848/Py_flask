@@ -1,6 +1,10 @@
 from flask import Flask, request, render_template, redirect, session
+from datetime import timedelta
+import os
+
 app = Flask(__name__, static_folder="static", static_url_path="/static")
-app.secret_key = "45ffh46dfh"
+app.config["SECRET_KEY"] = os.urandom(24)
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days = 1)
 
 @app.route("/")
 def index():
@@ -17,6 +21,7 @@ def signin():
     password = request.form["password"]
     if (account == accountPass and password == passwordPass):
         session["user"] = account
+        session.permanent = True
         return redirect("/member/")
     else:
         return redirect("/error/")
