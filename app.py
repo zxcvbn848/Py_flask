@@ -10,7 +10,7 @@ app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days = 1)
 def index():
     if "user" in session:
         return redirect("/member/")
-    if "user" not in session:
+    else:
         return render_template("index.html")
 
 @app.route("/signin", methods=["POST"])
@@ -21,7 +21,6 @@ def signin():
     password = request.form["password"]
     if (account == accountPass and password == passwordPass):
         session["user"] = account
-        session.permanent = True
         return redirect("/member/")
     else:
         return redirect("/error/")
@@ -30,7 +29,7 @@ def signin():
 def member():
     if "user" in session:
         return render_template("member.html")
-    if "user" not in session:
+    else:
         return redirect("/")
 
 @app.route("/error/")
